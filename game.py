@@ -26,29 +26,28 @@ class GameOfLife:
         self.canvas = tk.Canvas(self.root, width=self.width, height=self.height, bg="white")
         self.canvas.pack()
 
-        # Scroll bar for moving around the grid
-        self.scrollbar = tk.Scrollbar(self.root, orient=tk.VERTICAL, command=self.scroll)
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self.canvas.config(yscrollcommand=self.scrollbar.set)
-
         # Frame for controls
         control_frame = tk.Frame(self.root)
         control_frame.pack(pady=10)
 
+        # Button styles
+        button_style = {'bg': 'coral', 'fg': 'white', 'font': ('Helvetica', 10, 'bold')}
+
         # Buttons for controls
-        self.start_btn = tk.Button(control_frame, text="Start", command=self.start)
+        self.start_btn = tk.Button(control_frame, text="Start", command=self.start, **button_style)
         self.start_btn.pack(side=tk.LEFT, padx=5)
-        self.random_btn = tk.Button(control_frame, text="Random", command=self.randomize_grid)
+        self.random_btn = tk.Button(control_frame, text="Random", command=self.randomize_grid, **button_style)
         self.random_btn.pack(side=tk.LEFT, padx=5)
-        self.reset_btn = tk.Button(control_frame, text="Clear", command=self.reset_grid)
+        self.reset_btn = tk.Button(control_frame, text="Clear", command=self.reset_grid, **button_style)
         self.reset_btn.pack(side=tk.LEFT, padx=5)
-        self.stop_btn = tk.Button(control_frame, text="Stop", command=self.stop)
+        self.stop_btn = tk.Button(control_frame, text="Stop", command=self.stop, **button_style)
         self.stop_btn.pack(side=tk.LEFT, padx=5)
 
         # Pattern selection dropdown
         self.pattern_var = tk.StringVar(self.root)
         self.pattern_var.set("Select Pattern")  # Default value
         self.pattern_menu = tk.OptionMenu(control_frame, self.pattern_var, *PREDEFINED_PATTERNS.keys(), command=self.load_pattern)
+        self.pattern_menu.config(bg='coral', fg='white', font=('Helvetica', 10, 'bold'))  # Style dropdown
         self.pattern_menu.pack(side=tk.LEFT, padx=5)
 
         # Speed control slider
@@ -61,16 +60,6 @@ class GameOfLife:
 
         # Randomize the grid when the game starts
         self.randomize_grid()
-
-        # Canvas scroll
-        self.canvas.bind("<MouseWheel>", self.on_mouse_wheel)
-
-    def scroll(self, *args):
-        self.canvas.yview(*args)
-
-    def on_mouse_wheel(self, event):
-        """Scroll the canvas vertically."""
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
 
     def toggle_cell(self, event):
         if not self.is_running:
