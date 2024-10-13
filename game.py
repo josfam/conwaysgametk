@@ -158,8 +158,8 @@ class GameOfLife:
         return new_grid
 
     def count_live_neighbors(self, row, col):
-        """Count the number of live neighbors for a cell."""
-        neighbors = [
+        """Count the number of live neighbors for a cell"""
+        neighbor_steps = [
             (-1, -1),
             (-1, 0),
             (-1, 1),
@@ -170,9 +170,13 @@ class GameOfLife:
             (1, 1),
         ]
         count = 0
-        for n in neighbors:
-            r, c = row + n[0], col + n[1]
-            if 0 <= r < self.rows and 0 <= c < self.cols and self.grid[r][c] == 1:
+        for neighbor_step in neighbor_steps:
+            y_step, x_step = neighbor_step[0], neighbor_step[1]
+            neighbor_row, neighbor_col = row + y_step, col + x_step
+            inside_canvas = 0 <= neighbor_row < self.rows and 0 <= neighbor_col < self.cols
+            if not inside_canvas:
+                continue
+            if self.grid[neighbor_row][neighbor_col] == 1:
                 count += 1
         return count
 
