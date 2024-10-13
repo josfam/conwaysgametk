@@ -12,7 +12,7 @@ PREDEFINED_PATTERNS = {
 
 # Game of Life class
 class GameOfLife:
-    def __init__(self, root, width=500, height=500, cell_size=30):
+    def __init__(self, root, width=600, height=600, cell_size=20):
         self.root = root
         self.width = width
         self.height = height
@@ -20,7 +20,7 @@ class GameOfLife:
         self.rows = height // cell_size
         self.cols = width // cell_size
         self.grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        self.prev_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]  # Track previous state
+        self.generation_history = [[None for _ in range(self.cols)] for _ in range(self.rows)]
         self.is_running = False
         self.speed = 100
 
@@ -59,7 +59,7 @@ class GameOfLife:
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.toggle_cell)
 
-        # Randomize the grid when the game starts
+        # Use random grid initially
         self.randomize_grid()
 
     def toggle_cell(self, event):
@@ -85,19 +85,18 @@ class GameOfLife:
     def randomize_grid(self):
         if not self.is_running:
             self.grid = [[random.choice([0, 1]) for _ in range(self.cols)] for _ in range(self.rows)]
+            self.generation_history = [[None for _ in range(self.cols)] for _ in range(self.rows)]
             self.draw_grid()
 
     def reset_grid(self):
         self.is_running = False
         self.grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        self.prev_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]  # Reset previous state
+        self.generation_history = [[None for _ in range(self.cols)] for _ in range(self.rows)]
         self.draw_grid()
 
     def start(self):
-        """Starts the game by updating the canvas according to game rules"""
-        if self.is_running:
-            pass
-        else:
+        """Start the game and continuously update the grid."""
+        if not self.is_running:
             self.is_running = True
             self.update()
 
@@ -105,85 +104,73 @@ class GameOfLife:
         self.is_running = False
 
     def update(self):
+        """Update the grid for the next generation based on the rules of the game."""
         if self.is_running:
-            self.prev_grid = [row[:] for row in self.grid]  # Save the current state
-            self.grid = self.next_generation()
+            new_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
+
+            for row in range(self.rows):
+                for col in range(self.cols):
+                    live_neighbors = self.count_live_neighbors(row, col)
+
+                    # Game rules
+                    if self.grid[row][col] == 1:
+                        if live_neighbors < 2 or live_neighbors > 3:
+                            new_grid[row][col] = 0
+                        else:
+                            new_grid[row][col] = 1
+                    else:
+                        if live_neighbors == 3:
+                            new_grid[row][col] = 1
+
+            # Save current grid to history for oscillator/spaceship detection
+            self.generation_history = [row[:] for row in self.grid]
+            self.grid = new_grid
             self.draw_grid()
             self.root.after(self.speed, self.update)
 
-    def next_generation(self):
-        new_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        for row in range(self.rows):
-            for col in range(self.cols):
-                live_neighbors = self.count_live_neighbors(row, col)
-                if self.grid[row][col] == 1:  # Cell is alive
-                    if live_neighbors < 2 or live_neighbors > 3:
-                        new_grid[row][col] = 0  # Cell dies
-                    else:
-                        new_grid[row][col] = 1  # Cell lives
-                else:  # Cell is dead
-                    if live_neighbors == 3:
-                        new_grid[row][col] = 1  # Cell becomes alive
-        return new_grid
-
     def count_live_neighbors(self, row, col):
+        """Count the number of live neighbors for a cell."""
         neighbors = [
             (-1, -1), (-1, 0), (-1, 1),
             (0, -1),         (0, 1),
             (1, -1), (1, 0), (1, 1)
         ]
         count = 0
-        for n in neighbors:
-            r, c = row + n[0], col + n[1]
+        for dr, dc in neighbors:
+            r, c = row + dr, col + dc
             if 0 <= r < self.rows and 0 <= c < self.cols and self.grid[r][c] == 1:
                 count += 1
         return count
 
     def draw_grid(self):
+        """Draw the current grid state on the canvas."""
         self.canvas.delete("all")
+        cell_size = self.cell_size
+        draw = self.canvas.create_rectangle
+
         for row in range(self.rows):
+            y1 = row * cell_size
+            y2 = y1 + cell_size
             for col in range(self.cols):
-                x1 = col * self.cell_size
-                y1 = row * self.cell_size
-                x2 = x1 + self.cell_size
-                y2 = y1 + self.cell_size
+                x1 = col * cell_size
+                x2 = x1 + cell_size
 
-                # Check for Glider pattern and color it orange during transition
-                if self.prev_grid[row][col] == 1 and self.grid[row][col] == 0:  # Cell was alive and now dead
-                    fill_color = "orange"
-                elif self.grid[row][col] == 1:  # Cell is alive
-                    if self.is_glider_cell(row, col):  # Check if it's part of a Glider
-                        fill_color = "orange"
-                    else:
-                        fill_color = "Teal"
+                # Color transition to orange for oscillators/spaceships
+                if self.generation_history[row][col] == self.grid[row][col] == 1:
+                    color = "orange"  # Oscillator/Spaceship detected
                 else:
-                    fill_color = "white"
+                    color = "Teal" if self.grid[row][col] == 1 else "white"
 
-                self.canvas.create_rectangle(x1, y1, x2, y2, fill=fill_color, outline="gray")
-
-    def is_glider_cell(self, row, col):
-        """Check if the cell at (row, col) is part of a Glider pattern."""
-        glider = PREDEFINED_PATTERNS["Glider"]
-        start_row = self.rows // 2 - len(glider) // 2
-        start_col = self.cols // 2 - len(glider[0]) // 2
-        
-        for r, pattern_row in enumerate(glider):
-            for c, value in enumerate(pattern_row):
-                if value == 1:
-                    if (start_row + r == row) and (start_col + c == col):
-                        return True
-        return False
+                draw(x1, y1, x2, y2, fill=color, outline="gray")
 
     def set_speed(self, value):
         """Adjust the speed of the game based on the slider value."""
         self.speed = int(value)
-
 
 # Create and run the Tkinter application
 if __name__ == "__main__":
     root = tk.Tk()
     root.geometry(f'{800}x{800}')
     root.title("Conway's Game of Life")
-    root.resizable(False, False)
     game = GameOfLife(root)
     root.mainloop()
