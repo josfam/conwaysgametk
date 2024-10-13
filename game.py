@@ -20,6 +20,7 @@ class GameOfLife:
         self.rows = height // cell_size
         self.cols = width // cell_size
         self.grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
+        self.prev_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]  # Track previous state
         self.is_running = False
         self.speed = 100
 
@@ -89,6 +90,7 @@ class GameOfLife:
     def reset_grid(self):
         self.is_running = False
         self.grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
+        self.prev_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]  # Reset previous state
         self.draw_grid()
 
     def start(self):
@@ -100,6 +102,7 @@ class GameOfLife:
 
     def update(self):
         if self.is_running:
+            self.prev_grid = [row[:] for row in self.grid]  # Save the current state
             self.grid = self.next_generation()
             self.draw_grid()
             self.root.after(self.speed, self.update)
@@ -140,10 +143,32 @@ class GameOfLife:
                 y1 = row * self.cell_size
                 x2 = x1 + self.cell_size
                 y2 = y1 + self.cell_size
-                if self.grid[row][col] == 1:
-                    self.canvas.create_rectangle(x1, y1, x2, y2, fill="Teal")
+
+                # Check for Glider pattern and color it orange during transition
+                if self.prev_grid[row][col] == 1 and self.grid[row][col] == 0:  # Cell was alive and now dead
+                    fill_color = "orange"
+                elif self.grid[row][col] == 1:  # Cell is alive
+                    if self.is_glider_cell(row, col):  # Check if it's part of a Glider
+                        fill_color = "orange"
+                    else:
+                        fill_color = "Teal"
                 else:
-                    self.canvas.create_rectangle(x1, y1, x2, y2, outline="gray")
+                    fill_color = "white"
+
+                self.canvas.create_rectangle(x1, y1, x2, y2, fill=fill_color, outline="gray")
+
+    def is_glider_cell(self, row, col):
+        """Check if the cell at (row, col) is part of a Glider pattern."""
+        glider = PREDEFINED_PATTERNS["Glider"]
+        start_row = self.rows // 2 - len(glider) // 2
+        start_col = self.cols // 2 - len(glider[0]) // 2
+        
+        for r, pattern_row in enumerate(glider):
+            for c, value in enumerate(pattern_row):
+                if value == 1:
+                    if (start_row + r == row) and (start_col + c == col):
+                        return True
+        return False
 
     def set_speed(self, value):
         """Adjust the speed of the game based on the slider value."""
