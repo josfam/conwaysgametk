@@ -25,7 +25,7 @@ class GameOfLife:
         self.speed = 100
 
         self.canvas = tk.Canvas(self.root, width=self.width, height=self.height, bg="white")
-        self.canvas.pack()
+        self.canvas.pack(anchor=tk.CENTER, expand=True)
 
         # Frame for controls
         control_frame = tk.Frame(self.root)
@@ -94,8 +94,12 @@ class GameOfLife:
         self.draw_grid()
 
     def start(self):
-        self.is_running = True
-        self.update()
+        """Starts the game by updating the canvas according to game rules"""
+        if self.is_running:
+            pass
+        else:
+            self.is_running = True
+            self.update()
 
     def stop(self):
         self.is_running = False
@@ -178,6 +182,7 @@ class GameOfLife:
 # Create and run the Tkinter application
 if __name__ == "__main__":
     root = tk.Tk()
+    root.geometry(f'{800}x{800}')
     root.title("Conway's Game of Life")
     root.resizable(False, False)
     game = GameOfLife(root)
