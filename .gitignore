@@ -1,3 +1,6 @@
+# virtual env
+venv-gol/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
