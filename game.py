@@ -1,15 +1,30 @@
 #!/usr/bin/env python3
 
-"""Runs the game"""
+"""The rules and internal state for Conways game of life"""
 
 import tkinter as tk
+from canvas import GameCanvas
 from conway import GameOfLife
-from utils.constants import APP_SCREEN_SIZE
 
-# Create and run the Tkinter application
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.geometry(f'{APP_SCREEN_SIZE}x{APP_SCREEN_SIZE}')
-    root.title("Conway's Game of Life")
-    game = GameOfLife(root)
-    root.mainloop()
+
+class Game:
+    """Represents the game, that is the canvas, plus the game of life rules"""
+
+    def __init__(
+        self, root: tk.Tk, game_canvas: GameCanvas, game_of_life: GameOfLife
+    ):
+        self.root = root
+        self.game_canvas = game_canvas
+        self.game_of_life = game_of_life
+
+    def update_game_canvas(self):
+        """Redraws the game canvas, based on the current grid state"""
+        self.game_canvas.render_canvas()
+        # run the game again after 100ms intervals
+        if self.game_of_life.update():
+            self.game_canvas.render_canvas()
+        self.root.after(self.game_of_life.speed, self.update_game_canvas)
+
+    def run(self):
+        """Runs the game and updates the canvas"""
+        self.update_game_canvas()
