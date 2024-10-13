@@ -3,12 +3,7 @@
 import tkinter as tk
 import random
 from utils.constants import APP_SCREEN_SIZE, CANVAS_SIZE, CELL_SIZE
-# Predefined patterns
-PREDEFINED_PATTERNS = {
-    "Glider": [[0, 1, 0], [0, 0, 1], [1, 1, 1]],
-    "Blinker": [[1, 1, 1]],
-    "Block": [[1, 1], [1, 1]],
-}
+from utils.predefined_patterns import PREDEFINED_PATTERNS
 
 # Game of Life class
 class GameOfLife:
