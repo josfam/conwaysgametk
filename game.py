@@ -2,7 +2,7 @@
 
 import tkinter as tk
 import random
-
+from utils.constants import APP_SCREEN_SIZE, CANVAS_SIZE, CELL_SIZE
 # Predefined patterns
 PREDEFINED_PATTERNS = {
     "Glider": [[0, 1, 0], [0, 0, 1], [1, 1, 1]],
@@ -12,7 +12,7 @@ PREDEFINED_PATTERNS = {
 
 # Game of Life class
 class GameOfLife:
-    def __init__(self, root, width=500, height=500, cell_size=30):
+    def __init__(self, root, width=CANVAS_SIZE, height=CANVAS_SIZE, cell_size=CELL_SIZE):
         self.root = root
         self.width = width
         self.height = height
@@ -182,7 +182,7 @@ class GameOfLife:
 # Create and run the Tkinter application
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry(f'{800}x{800}')
+    root.geometry(f'{APP_SCREEN_SIZE}x{APP_SCREEN_SIZE}')
     root.title("Conway's Game of Life")
     root.resizable(False, False)
     game = GameOfLife(root)
