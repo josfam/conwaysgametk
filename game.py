@@ -107,5 +107,6 @@ class GameOfLife:
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Conway's Game of Life")
+    root.resizable(False, False)
     game = GameOfLife(root)
     root.mainloop()
