@@ -5,9 +5,12 @@ import random
 from utils.constants import APP_SCREEN_SIZE, CANVAS_SIZE, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
+
 # Game of Life class
 class GameOfLife:
-    def __init__(self, root, width=CANVAS_SIZE, height=CANVAS_SIZE, cell_size=CELL_SIZE):
+    def __init__(
+        self, root, width=CANVAS_SIZE, height=CANVAS_SIZE, cell_size=CELL_SIZE
+    ):
         self.root = root
         self.width = width
         self.height = height
@@ -15,11 +18,15 @@ class GameOfLife:
         self.rows = height // cell_size
         self.cols = width // cell_size
         self.grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        self.prev_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]  # Track previous state
+        self.prev_grid = [
+            [0 for _ in range(self.cols)] for _ in range(self.rows)
+        ]  # Track previous state
         self.is_running = False
         self.speed = 100
 
-        self.canvas = tk.Canvas(self.root, width=self.width, height=self.height, bg="white")
+        self.canvas = tk.Canvas(
+            self.root, width=self.width, height=self.height, bg="white"
+        )
         self.canvas.pack(anchor=tk.CENTER, expand=True)
 
         # Frame for controls
@@ -27,27 +34,59 @@ class GameOfLife:
         control_frame.pack(pady=10)
 
         # Button styles
-        button_style = {'bg': 'coral', 'fg': 'white', 'font': ('Helvetica', 10, 'bold')}
+        button_style = {
+            'bg': 'coral',
+            'fg': 'white',
+            'font': ('Helvetica', 10, 'bold'),
+        }
 
         # Buttons for controls
-        self.start_btn = tk.Button(control_frame, text="Start", command=self.start, **button_style)
+        self.start_btn = tk.Button(
+            control_frame, text="Start", command=self.start, **button_style
+        )
         self.start_btn.pack(side=tk.LEFT, padx=5)
-        self.random_btn = tk.Button(control_frame, text="Random", command=self.randomize_grid, **button_style)
+        self.random_btn = tk.Button(
+            control_frame,
+            text="Random",
+            command=self.randomize_grid,
+            **button_style,
+        )
         self.random_btn.pack(side=tk.LEFT, padx=5)
-        self.reset_btn = tk.Button(control_frame, text="Clear", command=self.reset_grid, **button_style)
+        self.reset_btn = tk.Button(
+            control_frame,
+            text="Clear",
+            command=self.reset_grid,
+            **button_style,
+        )
         self.reset_btn.pack(side=tk.LEFT, padx=5)
-        self.stop_btn = tk.Button(control_frame, text="Stop", command=self.stop, **button_style)
+        self.stop_btn = tk.Button(
+            control_frame, text="Stop", command=self.stop, **button_style
+        )
         self.stop_btn.pack(side=tk.LEFT, padx=5)
 
         # Pattern selection dropdown
         self.pattern_var = tk.StringVar(self.root)
         self.pattern_var.set("Select Pattern")  # Default value
-        self.pattern_menu = tk.OptionMenu(control_frame, self.pattern_var, *PREDEFINED_PATTERNS.keys(), command=self.load_pattern)
-        self.pattern_menu.config(bg='coral', fg='white', font=('Helvetica', 10, 'bold'))  # Style dropdown
+        self.pattern_menu = tk.OptionMenu(
+            control_frame,
+            self.pattern_var,
+            *PREDEFINED_PATTERNS.keys(),
+            command=self.load_pattern,
+        )
+        self.pattern_menu.config(
+            bg='coral', fg='white', font=('Helvetica', 10, 'bold')
+        )  # Style dropdown
         self.pattern_menu.pack(side=tk.LEFT, padx=5)
 
         # Speed control slider
-        self.speed_slider = tk.Scale(control_frame, from_=10, to=1000, orient=tk.HORIZONTAL, label="Speed (ms)", command=self.set_speed)
+        self.speed_slider = tk.Scale(
+            control_frame,
+            from_=10,
+            to=1000,
+            orient=tk.HORIZONTAL,
+            label="Speed (ms)",
+            command=self.set_speed,
+        )
         self.speed_slider.set(self.speed)
         self.speed_slider.pack(side=tk.LEFT, padx=5)
 
@@ -79,13 +118,18 @@ class GameOfLife:
 
     def randomize_grid(self):
         if not self.is_running:
-            self.grid = [[random.choice([0, 1]) for _ in range(self.cols)] for _ in range(self.rows)]
+            self.grid = [
+                [random.choice([0, 1]) for _ in range(self.cols)]
+                for _ in range(self.rows)
+            ]
             self.draw_grid()
 
     def reset_grid(self):
         self.is_running = False
         self.grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        self.prev_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]  # Reset previous state
+        self.prev_grid = [
+            [0 for _ in range(self.cols)] for _ in range(self.rows)
+        ]  # Reset previous state
         self.draw_grid()
 
     def start(self):
@@ -101,7 +145,9 @@ class GameOfLife:
 
     def update(self):
         if self.is_running:
-            self.prev_grid = [row[:] for row in self.grid]  # Save the current state
+            self.prev_grid = [
+                row[:] for row in self.grid
+            ]  # Save the current state
             self.grid = self.next_generation()
             self.draw_grid()
             self.root.after(self.speed, self.update)
@@ -123,14 +169,23 @@ class GameOfLife:
 
     def count_live_neighbors(self, row, col):
         neighbors = [
-            (-1, -1), (-1, 0), (-1, 1),
-            (0, -1),         (0, 1),
-            (1, -1), (1, 0), (1, 1)
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
         ]
         count = 0
         for n in neighbors:
             r, c = row + n[0], col + n[1]
-            if 0 <= r < self.rows and 0 <= c < self.cols and self.grid[r][c] == 1:
+            if (
+                0 <= r < self.rows
+                and 0 <= c < self.cols
+                and self.grid[r][c] == 1
+            ):
                 count += 1
         return count
 
@@ -144,24 +199,30 @@ class GameOfLife:
                 y2 = y1 + self.cell_size
 
                 # Check for Glider pattern and color it orange during transition
-                if self.prev_grid[row][col] == 1 and self.grid[row][col] == 0:  # Cell was alive and now dead
+                if (
+                    self.prev_grid[row][col] == 1 and self.grid[row][col] == 0
+                ):  # Cell was alive and now dead
                     fill_color = "orange"
                 elif self.grid[row][col] == 1:  # Cell is alive
-                    if self.is_glider_cell(row, col):  # Check if it's part of a Glider
+                    if self.is_glider_cell(
+                        row, col
+                    ):  # Check if it's part of a Glider
                         fill_color = "orange"
                     else:
                         fill_color = "Teal"
                 else:
                     fill_color = "white"
 
-                self.canvas.create_rectangle(x1, y1, x2, y2, fill=fill_color, outline="gray")
+                self.canvas.create_rectangle(
+                    x1, y1, x2, y2, fill=fill_color, outline="gray"
+                )
 
     def is_glider_cell(self, row, col):
         """Check if the cell at (row, col) is part of a Glider pattern."""
         glider = PREDEFINED_PATTERNS["Glider"]
         start_row = self.rows // 2 - len(glider) // 2
         start_col = self.cols // 2 - len(glider[0]) // 2
-        
+
         for r, pattern_row in enumerate(glider):
             for c, value in enumerate(pattern_row):
                 if value == 1:
