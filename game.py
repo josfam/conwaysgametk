@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import tkinter as tk
 import random
 
@@ -163,5 +165,6 @@ class GameOfLife:
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Conway's Game of Life")
+    root.resizable(False, False)
     game = GameOfLife(root)
     root.mainloop()
