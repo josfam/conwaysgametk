@@ -40,7 +40,7 @@ class GameOfLife:
         self.start_btn.pack(side=tk.LEFT, padx=5)
         self.random_btn = tk.Button(control_frame, text="Random", command=self.randomize_grid)
         self.random_btn.pack(side=tk.LEFT, padx=5)
-        self.reset_btn = tk.Button(control_frame, text="Reset", command=self.reset_grid)
+        self.reset_btn = tk.Button(control_frame, text="Clear", command=self.reset_grid)
         self.reset_btn.pack(side=tk.LEFT, padx=5)
         self.stop_btn = tk.Button(control_frame, text="Stop", command=self.stop)
         self.stop_btn.pack(side=tk.LEFT, padx=5)
