@@ -25,14 +25,19 @@ class GameCanvas:
         self.height = height
         self.rows = height // CELL_SIZE
         self.cols = width // CELL_SIZE
+
+        # canvas and speed slider frams
+        canvas_slider = tk.Frame(self.root)
+        canvas_slider.pack(padx=20, pady=20, side=tk.LEFT, expand=True)
+
         self.canvas = tk.Canvas(
-            self.root, width=self.width, height=self.height, bg="white"
+            canvas_slider, width=self.width, height=self.height, bg="white"
         )
-        self.canvas.pack(anchor=tk.CENTER, expand=True, side='left', padx=20)
+        self.canvas.pack(anchor=tk.CENTER, expand=True, side=tk.TOP)
 
         # Main frame for control buttons
         control_frame = tk.Frame(self.root)
-        control_frame.pack(padx=50, side='right')
+        control_frame.pack(padx=50, side=tk.RIGHT, expand=True)
 
         # first subframe for choosing patterns
         pattern_control = tk.Frame(control_frame)
@@ -40,11 +45,11 @@ class GameCanvas:
 
         # large spacer between top and bottom button groups
         spacer = tk.Frame(control_frame)
-        spacer.pack()
+        spacer.pack(pady=50, expand=True)
 
         # second subframe for controlling canvas simulation
         sim_control = tk.Frame(control_frame)
-        sim_control.pack(pady=50, side='top')
+        sim_control.pack(pady=10, side='top')
 
         # Buttons in pattern control
         self.random_btn = tk.Button(
@@ -92,15 +97,19 @@ class GameCanvas:
 
         # Speed control slider
         self.speed_slider = tk.Scale(
-            sim_control,
+            canvas_slider,
             from_=10,
             to=1000,
+            resolution=50,  # a step of 20 units
             orient=tk.HORIZONTAL,
-            label="Speed (ms)",
+            # label="Speed",
             command=self.set_speed,
+            length=CANVAS_SIZE,
+            relief=tk.FLAT,
+            troughcolor=canvas_colors.get('default').get('slider_trough')
         )
         self.speed_slider.set(self.game.speed)
-        self.speed_slider.pack(side=tk.LEFT, padx=5)
+        self.speed_slider.pack(side=tk.TOP, pady=5, expand=True)
 
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.game.toggle_cell)

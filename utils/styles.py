@@ -17,6 +17,7 @@ canvas_colors = {
         'alive': 'teal',
         'just_died': 'orange',
         'dead': 'white',
-        'cell_border': 'gray'
+        'cell_border': 'gray',
+        'slider_trough': 'teal'
     }
 }
