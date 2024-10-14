@@ -26,36 +26,39 @@ class GameCanvas:
         self.rows = height // CELL_SIZE
         self.cols = width // CELL_SIZE
 
-        # canvas and speed slider frams
+        # canvas and speed slider frame
         canvas_slider = tk.Frame(self.root)
         canvas_slider.pack(padx=20, pady=20, side=tk.LEFT, expand=True)
 
         self.canvas = tk.Canvas(
             canvas_slider, width=self.width, height=self.height, bg="white"
         )
-        self.canvas.pack(anchor=tk.CENTER, expand=True, side=tk.TOP)
+        self.canvas.pack(anchor=tk.CENTER, expand=True, side=tk.LEFT)
+
+        # frame for slider and label
+        slider_label = tk.Frame(canvas_slider)
+        slider_label.pack(side=tk.LEFT)
 
         # Speed control slider
         self.speed_slider = tk.Scale(
-            canvas_slider,
-            from_=10,
-            to=1000,
-            resolution=50,  # a step of 50 units
-            orient=tk.HORIZONTAL,
-            # label="Speed",
+            slider_label,
+            from_=1000,
+            to=10,
+            resolution=30,  # a step of 50 units
+            orient=tk.VERTICAL,
             command=self.set_speed,
-            length=CANVAS_WIDTH,
-            relief=tk.SUNKEN,
+            length=CANVAS_WIDTH // 2,
+            relief=tk.FLAT,
             troughcolor=canvas_colors.get('default').get('slider_trough'),
         )
         self.speed_slider.set(self.game.speed)
-        self.speed_slider.pack(side=tk.TOP, pady=5, expand=True)
+        self.speed_slider.pack(side=tk.TOP, expand=True)
 
         # add custom speed label under the slider
         speed_text = tk.Label(
-            canvas_slider, text='delay (ms)', font=font_style.get('default')
+            slider_label, text='delay (ms)', font=font_style.get('default')
         )
-        speed_text.pack(side=tk.TOP, expand=True)
+        speed_text.pack(side=tk.TOP, expand=True, ipadx=10)
 
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.game.toggle_cell)
