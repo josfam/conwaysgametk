@@ -2,6 +2,7 @@
 
 """Runs the game"""
 
+import sys
 import tkinter as tk
 from canvas import GameCanvas
 from game import Game
@@ -10,10 +11,18 @@ from pathlib import Path
 
 def main():
     root = tk.Tk()
-    icon_path = Path('./assets/icons/conway-lovelace.png')
+
+    # Handle paths properly when making an executable with PyInstaller
+    if getattr(sys, 'frozen', False):  # If the app is frozen (bundled)
+        base_path = Path(sys._MEIPASS)
+    else:
+        base_path = Path(__file__).parent
+
+    icon_path = base_path / 'assets/icons/conway-lovelace.png'
+
+    # icon_path = Path('./assets/icons/conway-lovelace.png')
     icon = tk.PhotoImage(file=str(icon_path))
     root.iconphoto(True, icon)
-    print(icon_path)
 
     # Get the screen width and height
     screen_width = root.winfo_screenwidth()

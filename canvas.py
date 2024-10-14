@@ -40,7 +40,7 @@ class GameCanvas:
             canvas_slider,
             from_=10,
             to=1000,
-            resolution=50,  # a step of 20 units
+            resolution=50,  # a step of 50 units
             orient=tk.HORIZONTAL,
             # label="Speed",
             command=self.set_speed,
