@@ -7,7 +7,7 @@ itself"""
 import tkinter as tk
 from game_of_life import GameOfLife
 from utils.styles import button_style, canvas_colors, font_style
-from utils.constants import CANVAS_SIZE, CELL_SIZE
+from utils.constants import CANVAS_WIDTH, CANVAS_HEIGHT, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
 

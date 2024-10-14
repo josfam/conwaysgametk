@@ -5,7 +5,7 @@
 import tkinter as tk
 from game_of_life import GameOfLife
 from utils.styles import button_style, canvas_colors, font_style
-from utils.constants import CANVAS_SIZE, CELL_SIZE
+from utils.constants import CANVAS_WIDTH, CANVAS_HEIGHT, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
 
@@ -16,8 +16,8 @@ class GameCanvas:
         self,
         root: tk.Tk = None,
         game: GameOfLife = None,
-        width: int = CANVAS_SIZE,
-        height: int = CANVAS_SIZE,
+        width: int = CANVAS_WIDTH,
+        height: int = CANVAS_HEIGHT,
     ):
         self.root = root
         self.game = game
@@ -44,7 +44,7 @@ class GameCanvas:
             orient=tk.HORIZONTAL,
             # label="Speed",
             command=self.set_speed,
-            length=CANVAS_SIZE,
+            length=CANVAS_WIDTH,
             relief=tk.SUNKEN,
             troughcolor=canvas_colors.get('default').get('slider_trough'),
         )
