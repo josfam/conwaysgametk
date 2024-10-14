@@ -16,8 +16,8 @@ if __name__ == "__main__":
     screen_height = root.winfo_screenheight()
 
     # Set APP_WIDTH and APP_HEIGHT as a percentage of the screen size
-    APP_WIDTH = int(100 * screen_width / 100)  # 80% of screen width
-    APP_HEIGHT = int(100 * screen_height / 100)  # 80% of screen height
+    APP_WIDTH = int(80 * screen_width / 100)  # 80% of screen width
+    APP_HEIGHT = int(80 * screen_height / 100)  # 80% of screen height
 
     root.geometry(f'{APP_WIDTH}x{APP_HEIGHT}')
     root.title("Conway's Game of Life")
