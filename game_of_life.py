@@ -23,6 +23,8 @@ class GameOfLife:
         self.prev_grid = [
             [0 for _ in range(self.cols)] for _ in range(self.rows)
         ]
+        # track only cells that are alive or were alive before and are now dead
+        self.dirty_cells = set()
         self.is_running = False
         self.speed = 100
         self.randomize_grid()
@@ -37,6 +39,22 @@ class GameOfLife:
             row = event.y // self.cell_size
             col = event.x // self.cell_size
             self.grid[row][col] = 1 if self.grid[row][col] == 0 else 0
+            # mark this as a dirty cell
+            self.mark_as_dirty(row, col)
+
+    def mark_as_dirty(self, row, col):
+        """Marks this cell and its neighbors as 'dirty' cells. That is, cells
+        that should be visited for update in the next iteration of the game"""
+        # add this cell
+        self.dirty_cells.add((row, col))
+        # add its neighbors
+        for y_step in [-1, 0, 1]:
+            for x_step in [-1, 0, 1]:
+                if y_step == 0 and x_step == 0:
+                    continue
+                neighbor_row, neighbor_col = row + y_step, col + x_step
+                if 0 <= neighbor_row < self.rows and 0 <= neighbor_col < self.cols:
+                    self.dirty_cells.add((neighbor_row, neighbor_col))
 
     def load_pattern(self, pattern_name):
         """Load a predefined pattern into the grid."""
@@ -56,6 +74,12 @@ class GameOfLife:
             [random.choice([0, 1]) for _ in range(self.cols)]
             for _ in range(self.rows)
         ]
+
+        # Mark all initially alive cells and their neighbors as dirty
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if self.grid[row][col] == 1:
+                    self.mark_as_dirty(row, col)
 
     def clear_grid(self):
         """Fills the grid with dead cells, thereby clearing it"""
@@ -90,18 +114,24 @@ class GameOfLife:
         """Returns the new generation of cells, based on the state of
         the old generation, according to the rules of the game"""
         new_grid = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
+        dirty_cells_copy = self.dirty_cells.copy()
+        self.dirty_cells.clear()
 
-        for row in range(self.rows):
-            for col in range(self.cols):
-                live_neighbors = self.count_live_neighbors(row, col)
-                if self.grid[row][col] == 1:  # Cell is alive
-                    if live_neighbors < 2 or live_neighbors > 3:
-                        new_grid[row][col] = 0  # Cell dies
-                    else:
-                        new_grid[row][col] = 1  # Cell lives
-                else:  # Cell is dead
-                    if live_neighbors == 3:
-                        new_grid[row][col] = 1  # Cell becomes alive
+        for row, col in dirty_cells_copy:
+            live_neighbors = self.count_live_neighbors(row, col)
+            if self.grid[row][col] == 1:  # Cell is alive
+                if live_neighbors < 2 or live_neighbors > 3:
+                    new_grid[row][col] = 0  # Cell dies
+                else:
+                    new_grid[row][col] = 1  # Cell lives
+            else:  # Cell is dead
+                if live_neighbors == 3:
+                    new_grid[row][col] = 1  # Cell becomes alive
+            
+            # mark an alive cell and its neighbors as dirty
+            if new_grid[row][col] == 1:
+                self.mark_as_dirty(row, col)
+
         return new_grid
 
     def count_live_neighbors(self, row, col):
