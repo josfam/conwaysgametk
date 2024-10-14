@@ -6,10 +6,14 @@ import tkinter as tk
 from canvas import GameCanvas
 from game import Game
 from game_of_life import GameOfLife
+from pathlib import Path
 
-# Create and run the Tkinter application
-if __name__ == "__main__":
+def main():
     root = tk.Tk()
+    icon_path = Path('./assets/icons/conway-lovelace.png')
+    icon = tk.PhotoImage(file=str(icon_path))
+    root.iconphoto(True, icon)
+    print(icon_path)
 
     # Get the screen width and height
     screen_width = root.winfo_screenwidth()
@@ -31,3 +35,7 @@ if __name__ == "__main__":
 
     game.run()
     root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
