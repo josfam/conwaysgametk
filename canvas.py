@@ -54,11 +54,10 @@ class GameCanvas:
         self.speed_slider.set(self.game.speed)
         self.speed_slider.pack(side=tk.TOP, expand=True)
 
-        # add custom speed label under the slider
+        # add custom speed label alongside the slider
         speed_text = tk.Label(
             slider_label, text='delay (ms)', font=font_style.get('default')
-        )
-        speed_text.pack(side=tk.TOP, expand=True, ipadx=10)
+        ).pack(side=tk.TOP, expand=True, ipadx=30)
 
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.game.toggle_cell)
