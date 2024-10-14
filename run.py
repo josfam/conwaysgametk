@@ -6,12 +6,12 @@ import tkinter as tk
 from canvas import GameCanvas
 from game import Game
 from conway import GameOfLife
-from utils.constants import APP_SCREEN_SIZE
+from utils.constants import APP_WIDTH, APP_HEIGHT
 
 # Create and run the Tkinter application
 if __name__ == "__main__":
     root = tk.Tk()
-    root.geometry(f'{APP_SCREEN_SIZE}x{APP_SCREEN_SIZE}')
+    root.geometry(f'{APP_WIDTH}x{APP_HEIGHT}')
     root.title("Conway's Game of Life")
 
     # initialize the game of life logic and canvas for drawing the grid

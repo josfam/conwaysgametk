@@ -28,56 +28,74 @@ class GameCanvas:
         self.canvas = tk.Canvas(
             self.root, width=self.width, height=self.height, bg="white"
         )
-        self.canvas.pack(anchor=tk.CENTER, expand=True)
+        self.canvas.pack(anchor=tk.CENTER, expand=True, side='left', padx=20)
 
-        # Frame for controls
+        # Main frame for control buttons
         control_frame = tk.Frame(self.root)
-        control_frame.pack(pady=10)
+        control_frame.pack(padx=50, side='right')
 
-        # Buttons for controls
-        self.start_btn = tk.Button(
-            control_frame,
-            text="Start",
-            command=self.start_game,
-            **button_style,
-        )
-        self.start_btn.pack(side=tk.LEFT, padx=5)
+        # first subframe for choosing patterns
+        pattern_control = tk.Frame(control_frame)
+        pattern_control.pack(pady=10, side='top')
+
+        # large spacer between top and bottom button groups
+        spacer = tk.Frame(control_frame)
+        spacer.pack()
+
+        # second subframe for controlling canvas simulation
+        sim_control = tk.Frame(control_frame)
+        sim_control.pack(pady=50, side='top')
+
+        # Buttons in pattern control
         self.random_btn = tk.Button(
-            control_frame,
+            # button for random patterns
+            pattern_control,
             text="Random",
             command=self.randomize_grid,
             **button_style,
         )
-        self.random_btn.pack(side=tk.LEFT, padx=5)
-        self.reset_btn = tk.Button(
-            control_frame,
-            text="Clear",
-            command=self.clear_grid,
-            **button_style,
-        )
-        self.reset_btn.pack(side=tk.LEFT, padx=5)
-        self.stop_btn = tk.Button(
-            control_frame, text="Stop", command=self.stop_game, **button_style
-        )
-        self.stop_btn.pack(side=tk.LEFT, padx=5)
 
         # Pattern selection dropdown
         self.pattern_var = tk.StringVar(self.root)
         self.pattern_var.set("Select Pattern")  # Default value
         self.pattern_menu = tk.OptionMenu(
-            control_frame,
+            pattern_control,
             self.pattern_var,
             *PREDEFINED_PATTERNS.keys(),
             command=self.load_pattern,
         )
-        self.pattern_menu.config(
-            bg='coral', fg='white', font=('Helvetica', 10, 'bold')
-        )  # Style dropdown
-        self.pattern_menu.pack(side=tk.LEFT, padx=5)
+        self.pattern_menu.config(**button_style)  # Style dropdown
+        self.pattern_menu.pack(side=tk.TOP, padx=5, expand=True)
+
+        # buttons in sim control
+        self.start_btn = tk.Button(
+            # button for starting the simulation
+            sim_control,
+            text="Start",
+            command=self.start_game,
+            **button_style,
+        ).pack(side=tk.TOP, padx=5)
+
+        self.stop_btn = tk.Button(
+            sim_control, text="Stop", command=self.stop_game, **button_style
+        )
+        self.stop_btn.pack(side=tk.TOP, padx=5)
+
+        self.random_btn.pack(side=tk.TOP, padx=5)
+        self.clear_btn = tk.Button(
+            sim_control,
+            text="Clear",
+            command=self.clear_grid,
+            **button_style,
+        )
+        self.clear_btn.pack(side=tk.TOP, padx=5)
+        
+
+        
 
         # Speed control slider
         self.speed_slider = tk.Scale(
-            control_frame,
+            sim_control,
             from_=10,
             to=1000,
             orient=tk.HORIZONTAL,
