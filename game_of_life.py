@@ -5,7 +5,7 @@ state for Conway's game of life"""
 
 import random
 import tkinter as tk
-from utils.constants import CANVAS_SIZE, CELL_SIZE
+from utils.constants import CANVAS_WIDTH, CANVAS_HEIGHT, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
 
@@ -13,7 +13,7 @@ class GameOfLife:
     """Represents the rules, and game state for Conway's game of life"""
 
     def __init__(
-        self, width=CANVAS_SIZE, height=CANVAS_SIZE, cell_size=CELL_SIZE
+        self, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, cell_size=CELL_SIZE
     ):
         self.cell_size = cell_size
         self.rows = height // cell_size

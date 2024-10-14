@@ -1,4 +1,5 @@
 """Constants to be used in the game"""
 
-CANVAS_SIZE = 800
-CELL_SIZE = 16
+CANVAS_HEIGHT = 800
+CANVAS_WIDTH = 1000
+CELL_SIZE = 10
