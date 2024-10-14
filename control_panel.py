@@ -5,7 +5,7 @@
 itself"""
 
 import tkinter as tk
-from conway import GameOfLife
+from game_of_life import GameOfLife
 from utils.styles import button_style, canvas_colors, font_style
 from utils.constants import CANVAS_SIZE, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS

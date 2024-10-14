@@ -4,7 +4,7 @@
 
 import tkinter as tk
 from canvas import GameCanvas
-from conway import GameOfLife
+from game_of_life import GameOfLife
 from control_panel import ControlPanel
 
 
