@@ -11,3 +11,12 @@ button_style = {
     'pady': 10,
     'width': 25
 }
+
+canvas_colors = {
+    'default': {
+        'alive': 'teal',
+        'just_died': 'orange',
+        'dead': 'white',
+        'cell_border': 'gray'
+    }
+}

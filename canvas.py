@@ -4,7 +4,7 @@
 
 import tkinter as tk
 from conway import GameOfLife
-from utils.styles import button_style
+from utils.styles import button_style, canvas_colors
 from utils.constants import CANVAS_SIZE, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
@@ -89,9 +89,6 @@ class GameCanvas:
             **button_style,
         )
         self.clear_btn.pack(side=tk.TOP, padx=5)
-        
-
-        
 
         # Speed control slider
         self.speed_slider = tk.Scale(
@@ -133,7 +130,7 @@ class GameCanvas:
     def set_speed(self, value):
         self.game.set_speed(value)
 
-    def render_canvas(self):
+    def render_canvas(self, colors=canvas_colors.get('default')):
         """Renders the current game state onto the canvas"""
         self.canvas.delete("all")
         cell_size = CELL_SIZE
@@ -151,12 +148,12 @@ class GameCanvas:
                     self.game.prev_grid[row][col] == 1
                     and self.game.grid[row][col] == 0
                 ):  # Cell was alive and now dead
-                    fill_color = "orange"
+                    fill_color = colors.get('just_died')
                 elif grid[row][col] == 1:  # Cell is alive
-                    fill_color = "Teal"
+                    fill_color = colors.get('alive')
                 else:
-                    fill_color = "white"
+                    fill_color = colors.get('dead')
 
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=fill_color, outline="gray"
+                    x1, y1, x2, y2, fill=fill_color, outline=colors.get('cell_border')
                 )
