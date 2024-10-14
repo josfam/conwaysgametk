@@ -53,7 +53,7 @@ class GameCanvas:
 
         # add custom speed label under the slider
         speed_text = tk.Label(
-            canvas_slider, text='speed (ms)', font=font_style.get('default')
+            canvas_slider, text='delay (ms)', font=font_style.get('default')
         )
         speed_text.pack(side=tk.TOP, expand=True)
 
