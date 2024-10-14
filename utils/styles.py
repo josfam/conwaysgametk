@@ -2,11 +2,17 @@
 
 """For game styles"""
 
+# text styles
+font_style = {
+    'default': ('Helvetica', 12),
+    'default_bold': ('Helvetica', 12, 'bold'),
+}
+
 # Button styles
 button_style = {
     'bg': 'coral',
     'fg': 'white',
-    'font': ('Helvetica', 10, 'bold'),
+    'font': font_style.get('default_bold'),
     'padx': 12,
     'pady': 10,
     'width': 25

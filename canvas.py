@@ -4,7 +4,7 @@
 
 import tkinter as tk
 from conway import GameOfLife
-from utils.styles import button_style, canvas_colors
+from utils.styles import button_style, canvas_colors, font_style
 from utils.constants import CANVAS_SIZE, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
@@ -105,11 +105,15 @@ class GameCanvas:
             # label="Speed",
             command=self.set_speed,
             length=CANVAS_SIZE,
-            relief=tk.FLAT,
+            relief=tk.SUNKEN,
             troughcolor=canvas_colors.get('default').get('slider_trough')
         )
         self.speed_slider.set(self.game.speed)
         self.speed_slider.pack(side=tk.TOP, pady=5, expand=True)
+
+        # add custom speed label under the slider
+        speed_text = tk.Label(canvas_slider, text='speed', font=font_style.get('default'))
+        speed_text.pack(side=tk.TOP, expand=True)
 
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.game.toggle_cell)
