@@ -7,6 +7,7 @@ from canvas import GameCanvas
 from conway import GameOfLife
 from control_panel import ControlPanel
 
+
 class Game:
     """Represents the game, that is the canvas, plus the game of life rules"""
 

@@ -46,13 +46,15 @@ class GameCanvas:
             command=self.set_speed,
             length=CANVAS_SIZE,
             relief=tk.SUNKEN,
-            troughcolor=canvas_colors.get('default').get('slider_trough')
+            troughcolor=canvas_colors.get('default').get('slider_trough'),
         )
         self.speed_slider.set(self.game.speed)
         self.speed_slider.pack(side=tk.TOP, pady=5, expand=True)
 
         # add custom speed label under the slider
-        speed_text = tk.Label(canvas_slider, text='speed (ms)', font=font_style.get('default'))
+        speed_text = tk.Label(
+            canvas_slider, text='speed (ms)', font=font_style.get('default')
+        )
         speed_text.pack(side=tk.TOP, expand=True)
 
         # Bind mouse click to toggle cells
@@ -86,5 +88,10 @@ class GameCanvas:
                     fill_color = colors.get('dead')
 
                 self.canvas.create_rectangle(
-                    x1, y1, x2, y2, fill=fill_color, outline=colors.get('cell_border')
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    fill=fill_color,
+                    outline=colors.get('cell_border'),
                 )

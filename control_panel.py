@@ -10,6 +10,7 @@ from utils.styles import button_style, canvas_colors, font_style
 from utils.constants import CANVAS_SIZE, CELL_SIZE
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
+
 class ControlPanel:
     """Sets up other ui controls (buttons, sliders, etc) that are not part of
     game canvas itself"""
@@ -18,7 +19,7 @@ class ControlPanel:
         self.root = root
         self.game = game_of_life
 
-         # Main frame for control buttons
+        # Main frame for control buttons
         self.control_frame = tk.Frame(self.root)
         self.control_frame.pack(padx=50, side=tk.RIGHT, expand=True)
 
@@ -52,7 +53,9 @@ class ControlPanel:
             *PREDEFINED_PATTERNS.keys(),
             command=self.load_pattern,
         )
-        self.pattern_menu.config(**button_style, direction='left')  # Style dropdown
+        self.pattern_menu.config(
+            **button_style, direction='left'
+        )  # Style dropdown
         self.pattern_menu.pack(side=tk.TOP, padx=5, expand=True)
 
         # buttons in sim control
@@ -77,7 +80,6 @@ class ControlPanel:
             **button_style,
         )
         self.clear_btn.pack(side=tk.TOP, padx=5)
-
 
     def start_game(self):
         """Starts updating the game state"""
