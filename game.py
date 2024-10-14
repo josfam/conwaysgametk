@@ -4,7 +4,8 @@
 
 import tkinter as tk
 from canvas import GameCanvas
-from conway import GameOfLife
+from game_of_life import GameOfLife
+from control_panel import ControlPanel
 
 
 class Game:
@@ -16,6 +17,7 @@ class Game:
         self.root = root
         self.game_canvas = game_canvas
         self.game_of_life = game_of_life
+        self.control_panel = ControlPanel(self.root, self.game_of_life)
 
     def update_game_canvas(self):
         """Redraws the game canvas, based on the current grid state"""

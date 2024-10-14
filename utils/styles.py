@@ -15,7 +15,7 @@ button_style = {
     'font': font_style.get('default_bold'),
     'padx': 12,
     'pady': 10,
-    'width': 25
+    'width': 25,
 }
 
 canvas_colors = {
@@ -24,6 +24,6 @@ canvas_colors = {
         'just_died': 'orange',
         'dead': 'white',
         'cell_border': 'gray',
-        'slider_trough': 'teal'
+        'slider_trough': 'teal',
     }
 }

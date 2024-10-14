@@ -5,7 +5,7 @@
 import tkinter as tk
 from canvas import GameCanvas
 from game import Game
-from conway import GameOfLife
+from game_of_life import GameOfLife
 
 # Create and run the Tkinter application
 if __name__ == "__main__":
