@@ -75,6 +75,14 @@ If you are not in the mood for randomness, there is a selection of known pattern
 \
 ![Demo for selecting from predefined patterns](./demo/conway-pattern-control-known.gif)
 
+### Custom patterns on click
+
+You can also click any square in the simulation (even on a currently stopped simulation) to toggle them
+\
+on and off, thereby creating your own pattern of cells.
+
+![Demo for creating your own pattern by clicking on the canvas](./demo/conway-cell-custom-control.gif)
+
 ### Cell size control
 
 The left keyboard arrow <kbd>←</kbd> reduces the cell size, thereby increasing the number of cells
