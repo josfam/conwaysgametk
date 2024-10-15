@@ -13,9 +13,9 @@ button_style = {
     'bg': 'coral',
     'fg': 'white',
     'font': font_style.get('default_bold'),
-    'padx': 12,
-    'pady': 10,
-    'width': 25,
+    'padx': 4,
+    'pady': 4,
+    'width': 22,
 }
 
 canvas_colors = {
