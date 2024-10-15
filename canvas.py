@@ -62,9 +62,9 @@ class GameCanvas:
         """Initializes all the key binds for the game"""
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.game.toggle_cell)
-        # Bind up and down arrows to setting the grid size
-        self.root.bind('<Up>', self.increase_cell_size)
-        self.root.bind('<Down>', self.decrease_cell_size)
+        # Bind left and right arrows to setting the grid size
+        self.root.bind('<Right>', self.increase_cell_size)
+        self.root.bind('<Left>', self.decrease_cell_size)
 
     def increase_cell_size(self, event=None):
         """Increases the size of cells in the game"""
