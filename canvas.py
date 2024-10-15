@@ -26,12 +26,12 @@ class GameCanvas:
 
         # canvas and speed slider frame
         canvas_slider = tk.Frame(self.root)
-        canvas_slider.pack(padx=20, pady=20, side=tk.LEFT, expand=True)
+        canvas_slider.pack(padx=20, side=tk.LEFT, expand=True)
 
         self.canvas = tk.Canvas(
             canvas_slider, width=self.width, height=self.height, bg="white"
         )
-        self.canvas.pack(anchor=tk.CENTER, expand=True, side=tk.LEFT)
+        self.canvas.pack(anchor=tk.CENTER, expand=True, side=tk.LEFT, fill=tk.Y)
 
         # frame for slider and label
         slider_label = tk.Frame(canvas_slider)

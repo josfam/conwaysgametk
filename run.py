@@ -8,6 +8,7 @@ from canvas import GameCanvas
 from game import Game
 from game_of_life import GameOfLife
 from pathlib import Path
+from utils.constants import APP_WIDTH, APP_HEIGHT
 
 def main():
     root = tk.Tk()
@@ -24,17 +25,9 @@ def main():
     icon = tk.PhotoImage(file=str(icon_path))
     root.iconphoto(True, icon)
 
-    # Get the screen width and height
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    # Set APP_WIDTH and APP_HEIGHT as a percentage of the screen size
-    APP_WIDTH = int(80 * screen_width / 100)  # 80% of screen width
-    APP_HEIGHT = int(80 * screen_height / 100)  # 80% of screen height
-
-    root.geometry(f'{APP_WIDTH}x{APP_HEIGHT}')
+    place_app_window(root)
     root.title("Conway's Game of Life")
-
+    root.resizable(False, False)
     # Initialize the game of life logic and canvas for drawing the grid
     game_of_life = GameOfLife()
     game_canvas = GameCanvas(root, game_of_life)
@@ -45,6 +38,15 @@ def main():
     game.run()
     root.mainloop()
 
+def place_app_window(root: tk.Tk):
+    """Places the application window on the user's screen
+    at a specific position"""
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    y_offset = -20  # push the window up a bit (useful for rendering on windows)
+    center_x = int(screen_width/2 - APP_WIDTH / 2)
+    center_y = int(screen_height/2 - APP_HEIGHT / 2) + y_offset
+    root.geometry(f'{APP_WIDTH}x{APP_HEIGHT}+{center_x}+{center_y}')
 
 if __name__ == "__main__":
     main()
