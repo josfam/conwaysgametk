@@ -94,7 +94,6 @@ class GameCanvas:
         """Renders the current game state onto the canvas"""
         self.canvas.delete("all")
         cell_size = self.game.cell_size
-        print(f'[canvas.py,render_canvas]: cell size now = {cell_size}')
         grid = self.game.get_current_state()
 
         rows = self.game.rows
