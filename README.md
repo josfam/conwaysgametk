@@ -107,3 +107,30 @@ As expected, the `start`, `stop`, and `clear` buttons allow for the simulation t
 and for the simulation screen to be made empty
 
 ## Performance optimizations
+
+### Compute only where necessary by tracking "dirty cells"
+
+"Dirty cells" are cells that have the potential to change their state in the next iteration of the game.
+\
+Instead of recalculating the new state for each cell in the grid, only cells that are marked as "dirty"
+\
+are visited.
+\
+Keeping a set of "dirty" cells and computing just their state dramatically reduced on computation time,
+\
+compared to our original method.
+
+- Say that you created this simple custom pattern:
+
+![Dirty cells explanation - A Simple pattern to compute](./demo/example-pattern-performance.png)
+
+- Our old method would require computing state for each and every one of the cells in the grid
+(Computation represented by yellow) as seen below
+
+![Dirty cells explanation - Computing everything](./demo/example-pattern-old-method-compute-all.png)
+
+- The "dirty cells" method allowed us to only compute state for relevant cells, as seen here
+
+![Dirty cells explanation - Only relevant computing](./demo/example-pattern-new-method-compute-dirty.png)
+
+---
