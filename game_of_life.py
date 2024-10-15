@@ -29,6 +29,17 @@ class GameOfLife:
         self.speed = 100
         self.randomize_grid()
 
+    def set_cell_size(self, new_cell_size):
+        """Adjusts the size of the grid, i.e. how many cells there are in the
+        game, given a cell size"""
+        self.cell_size = new_cell_size
+        self.rows = CANVAS_HEIGHT // self.cell_size
+        self.cols = CANVAS_WIDTH // self.cell_size
+
+        self.clear_grid()  # reset current grid and previous grid
+        self.dirty_cells.clear()
+        self.randomize_grid()
+
     def get_current_state(self):
         """Returns the current state of the grid."""
         return self.grid

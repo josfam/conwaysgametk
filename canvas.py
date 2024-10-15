@@ -5,7 +5,7 @@
 import tkinter as tk
 from game_of_life import GameOfLife
 from utils.styles import button_style, canvas_colors, font_style
-from utils.constants import CANVAS_WIDTH, CANVAS_HEIGHT, CELL_SIZE
+from utils.constants import CANVAS_WIDTH, CANVAS_HEIGHT, ACCEPTED_CELL_SIZES
 from utils.predefined_patterns import PREDEFINED_PATTERNS
 
 
@@ -16,15 +16,13 @@ class GameCanvas:
         self,
         root: tk.Tk = None,
         game: GameOfLife = None,
-        width: int = CANVAS_WIDTH,
-        height: int = CANVAS_HEIGHT,
     ):
         self.root = root
         self.game = game
-        self.width = width
-        self.height = height
-        self.rows = height // CELL_SIZE
-        self.cols = width // CELL_SIZE
+        self.width = CANVAS_WIDTH
+        self.height = CANVAS_HEIGHT
+        self.rows = self.height // self.game.cell_size
+        self.cols = self.width // self.game.cell_size
 
         # canvas and speed slider frame
         canvas_slider = tk.Frame(self.root)
@@ -58,9 +56,36 @@ class GameCanvas:
         speed_text = tk.Label(
             slider_label, text='delay (ms)', font=font_style.get('default')
         ).pack(side=tk.TOP, expand=True, ipadx=30)
+        self.bind_keys()
 
+    def bind_keys(self):
+        """Initializes all the key binds for the game"""
         # Bind mouse click to toggle cells
         self.canvas.bind("<Button-1>", self.game.toggle_cell)
+        # Bind up and down arrows to setting the grid size
+        self.root.bind('<Up>', self.increase_cell_size)
+        self.root.bind('<Down>', self.decrease_cell_size)
+
+    def increase_cell_size(self, event=None):
+        """Increases the size of cells in the game"""
+        current = self.game.cell_size
+        try:
+            _next = ACCEPTED_CELL_SIZES[ACCEPTED_CELL_SIZES.index(current) + 1]
+            self.set_cell_size(_next)
+        except IndexError:
+            return
+
+    def decrease_cell_size(self, event=None):
+        """Decreases the size of cells in the game"""
+        current = self.game.cell_size
+        try:
+            _next = ACCEPTED_CELL_SIZES[ACCEPTED_CELL_SIZES.index(current) - 1]
+            self.set_cell_size(_next)
+        except IndexError:
+            return
+
+    def set_cell_size(self, new_cell_size):
+        self.game.set_cell_size(new_cell_size)
 
     def set_speed(self, value):
         self.game.set_speed(value)
@@ -68,13 +93,17 @@ class GameCanvas:
     def render_canvas(self, colors=canvas_colors.get('default')):
         """Renders the current game state onto the canvas"""
         self.canvas.delete("all")
-        cell_size = CELL_SIZE
+        cell_size = self.game.cell_size
+        print(f'[canvas.py,render_canvas]: cell size now = {cell_size}')
         grid = self.game.get_current_state()
 
-        for row in range(self.rows):
+        rows = self.game.rows
+        cols = self.game.cols
+
+        for row in range(rows):
             y1 = row * cell_size
             y2 = y1 + cell_size
-            for col in range(self.cols):
+            for col in range(cols):
                 x1 = col * cell_size
                 x2 = x1 + cell_size
 
