@@ -1,4 +1,4 @@
-# conwaysgametk
+# gameoflife-tk
 
 Conway's Game of Life, as a Tkinter desktop application.
 \
