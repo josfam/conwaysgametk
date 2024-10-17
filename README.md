@@ -120,17 +120,12 @@ Keeping a set of "dirty" cells and computing just their state dramatically reduc
 \
 compared to our original method.
 
-- Say that you created this simple custom pattern:
+Here is an illustration of the optimization showing:
 
-![Dirty cells explanation - A Simple pattern to compute](./demo/example-pattern-performance.png)
+- The original cells before computation begins (A)
+- The original computation load (yellow boxes) our old un-optimized method used (B)
+- The new computation load (yellow boxes) from the optimized "dirty cells" method (C)
 
-- Our old method would require computing state for each and every one of the cells in the grid
-(Computation represented by yellow) as seen below
-
-![Dirty cells explanation - Computing everything](./demo/example-pattern-old-method-compute-all.png)
-
-- The "dirty cells" method allowed us to only compute state for relevant cells, as seen here
-
-![Dirty cells explanation - Only relevant computing](./demo/example-pattern-new-method-compute-dirty.png)
+![Dirty cells explanation - Only relevant computing](./demo/example-optmized-rendering.png)
 
 ---
