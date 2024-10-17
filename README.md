@@ -15,8 +15,8 @@ community competition.
 ## Table of Contents
 
 - [How to run the application](#how-to-run-the-application)
-  - [Running the python code from your terminal](#1-using-executable-files)
-  - [OpenWeatherMap](#2-running-the-python-code-from-your-terminal)
+  - [Using executable files](#1-using-executable-files)
+  - [Running the python code from your terminal](#2-running-the-python-code-from-your-terminal)
 - [Project background](#project-background)
 - [Application features](#application-features)
   - [Random patterns](#random-patterns)
