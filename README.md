@@ -12,6 +12,25 @@ community competition.
 
 ---
 
+## Table of Contents
+
+- [How to run the application](#how-to-run-the-application)
+  - [Running the python code from your terminal](#1-using-executable-files)
+  - [OpenWeatherMap](#2-running-the-python-code-from-your-terminal)
+- [Project background](#project-background)
+- [Application features](#application-features)
+  - [Random patterns](#random-patterns)
+  - [Predefined patterns](#predefined-patterns)
+  - [Custom patterns on click](#custom-patterns-on-click)
+  - [Cell size control](#cell-size-control)
+  - [Speed control](#speed-control)
+  - [Start, stop and clear the canvas](#start-stop-and-clear-the-canvas)
+- [Performance optimizations](#performance-optimizations)
+  - [Compute only where necessary](#compute-only-where-necessary-by-tracking-dirty-cells)
+  - [Allow for bigger cells](#allow-for-bigger-cells)
+
+---
+
 ## How to run the application
 
 ### 1. Using executable files
@@ -127,5 +146,11 @@ Here is an illustration of the optimization showing:
 - The new computation load (yellow boxes) from the optimized "dirty cells" method (C)
 
 ![Dirty cells explanation - Only relevant computing](./demo/example-optmized-rendering.png)
+
+### Allow for bigger cells
+
+The [Cell size control](#cell-size-control) feature also has a performance benefit, as large cells are
+\
+easier to render.
 
 ---
